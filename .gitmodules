@@ -1,3 +1,6 @@
 [submodule "userapi"]
 	path = userapi
 	url = https://github.com/bigcubecat/user_api_js
+[submodule "frontend"]
+	path = frontend
+	url = https://github.com/bigcubecat/energoly_front.git

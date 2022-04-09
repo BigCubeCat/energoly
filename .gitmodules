@@ -1,0 +1,3 @@
+[submodule "userapi"]
+	path = userapi
+	url = https://github.com/bigcubecat/user_api_js

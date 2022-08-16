@@ -8,6 +8,7 @@ edge = Types.Edge(index=1, parent=station.index, criticalDamage=5)
 factory = Types.Consumer(index=2, parents=[1], name="fA")
 
 
+
 ## Типа аукцион
 factory.setBill(10)
 if __name__ == "__main__":

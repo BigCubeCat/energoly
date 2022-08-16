@@ -1,21 +1,21 @@
-import Types
+from .Types import Consumer
 
-class Factory(Types.Consumer):
+class Factory(Consumer):
     def __init__(self, index, parents, name) -> None:
         super().__init__(index, parents, name)
 
 
-class HouseA(Types.Consumer):
+class HouseA(Consumer):
     def __init__(self, index, parent, name) -> None:
         super().__init__(index, [parent], name)
 
 
-class HouseB(Types.Consumer):
+class HouseB(Consumer):
     def __init__(self, index, parent, name) -> None:
         super().__init__(index, [parent], name)
 
 
-class Hospital(Types.Consumer):
+class Hospital(Consumer):
     def __init__(self, index, parents, name) -> None:
         super().__init__(index, parents, name)
 

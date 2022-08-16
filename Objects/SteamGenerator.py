@@ -1,13 +1,13 @@
 import Types
 
 
-class WindGenerator(Types.Generator):
+class SteamGenerator(Types.Generator):
     def __init__(self, index, parents, name, rent_price) -> None:
         super().__init__(index, parents, name)
         self.setBill(rent_price)
-        self.inertia = 0 # Инерция ветряка 
 
-    def update(self):
+    def update(self, count_oil):
         # TODO
-        pass
+        bill = self.rent_price * count_oil 
+        return count_oil * 10 ## TODO: 
 

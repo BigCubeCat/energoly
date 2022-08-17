@@ -5,7 +5,7 @@ from Objects.WindGenerator import WindGenerator
 from Objects.SteamGenerator import SteamGenerator
 from Objects.Consumers import Factory, HouseA, HouseB, Hospital
 from Objects.Types.Edge import Edge
-from Objects.Types.Station import Station
+from Objects.Stations import StationA, StationB, MainStation
 
 obj_types = [
     ("e", "Миниподстанции А"),
@@ -183,8 +183,14 @@ def getObjList(topology):
 				objList.append( HouseB(index_, parent, i[0]) )
 			case 'h':
 				objList.append( HouseA(index_, parent, i[0]) )
-			case 'F':
+			case 'f':
 				objList.append( Factory(index_, parent, i[0]) )
+			case 'e':
+				objList.append( StationA(index_, parent, i[0], 100) )
+			case 'm':
+				objList.append( StationB(index_, parent, i[0], 100) )
+			case 'M':
+				objList.append( MainStation(index_, parent, i[0], 100) )
 		
 	for i in objList + edges:
 		print(i)

@@ -1,4 +1,4 @@
-from Types.Station import Station
+from .Types import Station
 
 
 class MainStation(Station):

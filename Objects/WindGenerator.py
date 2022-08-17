@@ -43,6 +43,7 @@ class WindGenerator(Generator):
         return tree
 
     def load_model(self):
+        # ссылка на файл: https://drive.google.com/file/d/1HuOOUY5FqKMZyuBxp5_xYzAVz0MLyInG/view?usp=sharing
         with open('model_good_a1_v-full.json', 'r') as model_json:
             model_dict = json.load(model_json)
 

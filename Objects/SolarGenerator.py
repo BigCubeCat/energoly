@@ -1,27 +1,39 @@
 from .Types import Generator
 from .utils import constrain
-from math import pi
+from random import uniform
+
 
 class SolarGenerator(Generator):
-    def __init__(self, index, parents, name, rent_price) -> None:
+    def __init__(self, index, parents, name, rent_price, weather_sun_all, coordinate) -> None:
         super().__init__(index, parents, name)
         self.setBill(rent_price)
 
-    def update(self):
-        # TODO
-        func_sin = lambda x, day_tick=48: 0.3 * sin(x * 4*pi/day_tick) - 3.5
-        """
-        spread = lambda s, variable_value=0.3: constrain(s + uniform(-variable_value/2, variable_value/2), 0, 15)
+        self.weather_sun_all = weather_sun_all
+        self.max_weather_sun = max(self.weather_sun_all)
+        self.coordinate = coordinate
 
-        inverse_coordinates = lambda x, y: (19-x, 10-y)
-        first_sun = lambda x, y: - 0.102206143125*y**2+1.088911573499*y - 0.05493164125*x**2+0.6005859425*x + 5.518798830625019
-        second_sun = lambda x, y: - 0.102206143125*y**2+1.088911573499*y - 0.05493164125*x**2+0.6005859425*x + 5.939941414375021
-        dependence_on_the_position = lambda x, y: max(first_sun(x, y), second_sun(*inverse_coordinates(x, y)))
+    def func_sin(self, weather_sun):
+        return - 3.8 + 0.6 * (weather_sun/self.max_weather_sun)**2
 
-        gen_sun = lambda weather_sun, tick, x, y: spread(weather_sun + func_sin(tick) + (dependence_on_the_position(x, y)-dependence_on_the_position(2, 3)))
+    def spread(self, s, variable_value=0.3):
+        return constrain(s + uniform(-variable_value/2, variable_value/2), 0, 15)
 
-        s = [gen_sun(select[tick], tick, *(2, 3)) for tick in range(0, 100)]
-        print(s)
-        """
-        pass
+    def inverse_coordinates(self, x, y):
+        return 19-x, 10-y
 
+    def first_sun(self, x, y):
+        return - 0.102206143125*y**2+1.088911573499*y - 0.05493164125*x**2+0.6005859425*x + 5.518798830625019
+
+    def second_sun(self, x, y):
+        x, y = self.inverse_coordinates(x, y)
+        return - 0.102206143125*y**2+1.088911573499*y - 0.05493164125*x**2+0.6005859425*x + 5.939941414375021
+
+    def dependence_on_the_position(self, x, y):
+        return max(self.first_sun(x, y), self.second_sun(x, y))
+
+    def gen_sun(self, weather_sun, x, y):
+        return self.spread(weather_sun + self.func_sin(weather_sun) + (self.dependence_on_the_position(x, y)-self.dependence_on_the_position(2, 3)))
+
+    def update(self, tick):
+        result = self.gen_sun(self.weather_sun_all[tick], *self.coordinate)
+        return result

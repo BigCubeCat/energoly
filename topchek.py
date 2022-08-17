@@ -152,7 +152,7 @@ def getObjList(topology):
 	for i in topology:
 		if i["station"][0] == "M":
 			main_station_number = int(i["station"][1])
-			
+			break
 	topology.append({'address': f'M{main_station_number}', 'station': f'M{main_station_number}', 'line': None})
 
 	objList, edges = list(), list()

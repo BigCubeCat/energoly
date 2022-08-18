@@ -1,5 +1,8 @@
 import json
 import sys
+
+from Objects.utils import load_model
+
 from Objects.SolarGenerator import SolarGenerator
 from Objects.WindGenerator import WindGenerator
 from Objects.SteamGenerator import SteamGenerator
@@ -20,7 +23,8 @@ obj_types = [
     ("a", "ВЭС"),
     ("t", "ТЭС"),
 ]
-model = [load_model]
+model = [load_model()]
+
 
 def fail(*args):
     print("Ошибка:", *args)
@@ -123,7 +127,7 @@ def generate(s: str, filename="topo"):
             fail_n(i, "некорректный номер линии")
 
         if station[0] == "M":
-			
+
             if main_station is None:
                 main_station = station
             elif station != main_station:
@@ -147,87 +151,68 @@ def generate(s: str, filename="topo"):
     with open(filename + ".json", "w") as fout:
         json.dump(d, fout, indent=2)
 
-def load_model(self):
-        with open('compress_model', 'rb') as data:
-            compress = data.read()
-            decompress = zlib.decompress(compress).decode('utf-8')
-            prev_model = StringIO(decompress)
-            
-        model_dict = json.load(prev_model)
-        model = RandomForestRegressor(**model_dict['params'])
-        estimators = [
-            self.deserialize_decision_tree_regressor(decision_tree) for decision_tree in model_dict['estimators_']
-        ]
-        model.estimators_ = np.array(estimators)
-        model.n_features_ = model_dict['n_features_']
-        model.n_outputs_ = model_dict['n_outputs_']
 
-        return model
-        
 def getObjList(topology):
-	
-	for i in topology:
-		if i["station"][0] == "M":
-			main_station_number = int(i["station"][1])
-			break
-	topology.append({'address': f'M{main_station_number}', 'station': f'M{main_station_number}', 'line': None})
+    for i in topology:
+        if i["station"][0] == "M":
+            main_station_number = int(i["station"][1])
+            break
+    topology.append({'address': f'M{main_station_number}', 'station': f'M{main_station_number}', 'line': None})
 
-	objList, edges = list(), list()
-	
-	newDict = {i['address']:(i['station'], i['line']) for i in topology}
-	
-	itemses = tuple(newDict.items())
+    objList, edges = list(), list()
 
-	for index_, i in enumerate(itemses):
-		ind = len(newDict) + len(edges) 
-		
-		station = i[1][0]
-		parent = itemses.index( (station, newDict[station]) )
-		#print(i, parent, station)
-		edges.append( Edge(ind,  parent, 100))
+    newDict = {i['address']: (i['station'], i['line']) for i in topology}
+
+    itemses = tuple(newDict.items())
+
+    for index_, i in enumerate(itemses):
+        ind = len(newDict) + len(edges)
+
+        station = i[1][0]
+        parent = itemses.index((station, newDict[station]))
+        # print(i, parent, station)
+        edges.append(Edge(ind, parent, 100))
+
+        match i[0][0]:
+            case 's':
+                objList.append(SolarGenerator(index_, parent, i[0], 10, None, None))
+            case 'a':
+                objList.append(WindGenerator(index_, parent, i[0], 10, None, None, None, model))
+            case 't':
+                objList.append(SteamGenerator(index_, parent, i[0], 10))
+            case 'b':
+                objList.append(Hospital(index_, parent, i[0]))
+            case 'd':
+                objList.append(HouseB(index_, parent, i[0]))
+            case 'h':
+                objList.append(HouseA(index_, parent, i[0]))
+            case 'f':
+                objList.append(Factory(index_, parent, i[0]))
+            case 'e':
+                objList.append(StationA(index_, parent, i[0], 100))
+            case 'm':
+                objList.append(StationB(index_, parent, i[0], 100))
+            case 'M':
+                objList.append(MainStation(index_, parent, i[0], 100))
+            case 'c':
+                objList.append(Battery(index_, parent, i[0]))
+
+            # for i in objList + edges:
+    #	print(i)
+    return objList + edges
 
 
-		match i[0][0]:
-			case 's':
-				objList.append( SolarGenerator(index_, parent, i[0], 10, None, None) )
-			case 'a':
-				objList.append( WindGenerator(index_, parent, i[0], 10, None, None, None, model) )
-			case 't':
-				objList.append( SteamGenerator(index_, parent, i[0], 10) )
-			case 'b':
-				objList.append( Hospital(index_, parent, i[0]) )
-			case 'd':
-				objList.append( HouseB(index_, parent, i[0]) )
-			case 'h':
-				objList.append( HouseA(index_, parent, i[0]) )
-			case 'f':
-				objList.append( Factory(index_, parent, i[0]) )
-			case 'e':
-				objList.append( StationA(index_, parent, i[0], 100) )
-			case 'm':
-				objList.append( StationB(index_, parent, i[0], 100) )
-			case 'M':
-				objList.append( MainStation(index_, parent, i[0], 100) )
-			case 'c':
-				objList.append( Battery(index_, parent, i[0]) ) 
-  
-	#for i in objList + edges:
-	#	print(i)
-	return objList + edges
-	
 def read_topology(filename):
-	
     try:
         with open(filename) as fin:
             d = json.load(fin)
-        verify(d)            
+        verify(d)
         return getObjList(d)
-        
+
     except (FileNotFoundError, IsADirectoryError):
         fail("Файл", filename, "не найден")
     except json.decoder.JSONDecodeError as e:
         fail(e)
-        
 
 
 if __name__ == "__main__":

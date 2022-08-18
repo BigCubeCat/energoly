@@ -1,5 +1,5 @@
 from .Types import Generator
-from .utils import constrain
+from utils import constrain
 from random import uniform
 
 

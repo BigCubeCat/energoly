@@ -6,4 +6,5 @@ class Station(BaseObject):
         super().__init__(index, parents, name)
         self.criticalDamage = criticalDamage
         self.currentDamage = 0
-		self.outputsCount = outputsCount
+        self.outputsCount = outputsCount
+

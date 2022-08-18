@@ -39,8 +39,8 @@ def deserialize_tree(tree_dict, n_features, n_classes, n_outputs):
     return tree
 
 
-def load_model():
-    with open('compress_model', 'rb') as data:
+def load_model(filename="compress_model"):
+    with open(filename, 'rb') as data:
         compress = data.read()
         decompress = zlib.decompress(compress).decode('utf-8')
         prev_model = StringIO(decompress)

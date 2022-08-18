@@ -1,7 +1,7 @@
 import json
 import sys
 
-from Objects.utils import load_model
+from utils import load_model
 
 from Objects.SolarGenerator import SolarGenerator
 from Objects.WindGenerator import WindGenerator
@@ -206,8 +206,8 @@ def read_topology(filename):
     try:
         with open(filename) as fin:
             d = json.load(fin)
-        verify(d)
-        return getObjList(d)
+        verify(d) # Проверка топологии на корректность
+        return getObjList(d) # Наше ВСЕ!
 
     except (FileNotFoundError, IsADirectoryError):
         fail("Файл", filename, "не найден")
@@ -217,3 +217,4 @@ def read_topology(filename):
 
 if __name__ == "__main__":
     read_topology(sys.args[-1], None)
+

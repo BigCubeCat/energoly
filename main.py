@@ -12,17 +12,16 @@ from topchek import read_topology
 objects = read_topology("testTopology")
 
 
-
 for i in range(100): # Все тики
-	for obj in objects:
-		if isinstance(obj, Generator):
-  			energy = obj.update(); # TODO: передать значение
-			objects[obj.parent].update(energy)
-		elif isinstance(obj, Consumer):
-			energy = obj.update(0); # TODO: передать значение
-			objects[obj.parent].update(energy)
-		elif isinstance(obj, Edge):
-			obj.update()
-			objects[obj.parent] # TODO: Износ на edge
-
+    for obj in objects:
+        energy = 0
+        if isinstance(obj, Generator):
+            energy = obj.update() # TODO: передать значение
+            objects[obj.parent].update(energy)
+        elif isinstance(obj, Consumer):
+            energy = obj.update(0); # TODO: передать значение
+            objects[obj.parent].update(energy)
+        elif isinstance(obj, Edge):
+            obj.update()
+            objects[obj.parent] # TODO: Износ на edge
             

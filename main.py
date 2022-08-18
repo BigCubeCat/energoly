@@ -6,12 +6,11 @@ from Objects.Types.Consumer import Consumer
 from Objects.Types.Generator import Generator
 from Objects.Types.Edge import Edge
 from Objects.Types.Station import Station
+from topchek import read_topology
 
-objects = [
-	Station(0, None, "M1", 50),
-	Edge(1, 0, 100),
-	SteamGenerator(2, 1, "f3", 10)
-]
+
+objects = read_topology("testTopology")
+
 
 
 for i in range(100): # Все тики

@@ -20,7 +20,7 @@ obj_types = [
     ("a", "ВЭС"),
     ("t", "ТЭС"),
 ]
-
+model = [load_model]
 
 def fail(*args):
     print("Ошибка:", *args)
@@ -147,7 +147,23 @@ def generate(s: str, filename="topo"):
     with open(filename + ".json", "w") as fout:
         json.dump(d, fout, indent=2)
 
+def load_model(self):
+        with open('compress_model', 'rb') as data:
+            compress = data.read()
+            decompress = zlib.decompress(compress).decode('utf-8')
+            prev_model = StringIO(decompress)
+            
+        model_dict = json.load(prev_model)
+        model = RandomForestRegressor(**model_dict['params'])
+        estimators = [
+            self.deserialize_decision_tree_regressor(decision_tree) for decision_tree in model_dict['estimators_']
+        ]
+        model.estimators_ = np.array(estimators)
+        model.n_features_ = model_dict['n_features_']
+        model.n_outputs_ = model_dict['n_outputs_']
 
+        return model
+        
 def getObjList(topology):
 	
 	for i in topology:
@@ -175,7 +191,7 @@ def getObjList(topology):
 			case 's':
 				objList.append( SolarGenerator(index_, parent, i[0], 10, None, None) )
 			case 'a':
-				objList.append( WindGenerator(index_, parent, i[0], 10, None, None, None) )
+				objList.append( WindGenerator(index_, parent, i[0], 10, None, None, None, model) )
 			case 't':
 				objList.append( SteamGenerator(index_, parent, i[0], 10) )
 			case 'b':
@@ -199,32 +215,20 @@ def getObjList(topology):
 	#	print(i)
 	return objList + edges
 	
-def main():
-    print(sys.argv)
-    if len(sys.argv) == 2:
-        filename = sys.argv[-1]
-        try:
-            with open(filename) as fin:
-                d = json.load(fin)
-            verify(d)
-            
-            return getObjList(d)
-        except (FileNotFoundError, IsADirectoryError):
-            fail("Файл", filename, "не найден")
-        except json.decoder.JSONDecodeError as e:
-            fail(e)
+def read_topology(filename):
+	
+    try:
+        with open(filename) as fin:
+            d = json.load(fin)
+        verify(d)            
+        return getObjList(d)
         
-    if len(sys.argv) == 3 and sys.argv[1] == "generate":
-        filename = sys.argv[-1]
-        try:
-            with open(filename) as fin:
-                d = fin.read()
-            generate(d, filename)
-            return
-        except (FileNotFoundError, IsADirectoryError):
-            fail("Файл", filename, "не найден")
-    fail(sys.argv[0], "<topology.json>")
+    except (FileNotFoundError, IsADirectoryError):
+        fail("Файл", filename, "не найден")
+    except json.decoder.JSONDecodeError as e:
+        fail(e)
+        
 
 
 if __name__ == "__main__":
-    main()
+    read_topology(sys.args[-1], None)

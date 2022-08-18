@@ -19,7 +19,7 @@ for i in range(100): # Все тики
   			energy = obj.update(); # TODO: передать значение
 			objects[obj.parent].update(energy)
 		elif isinstance(obj, Consumer):
-			energy = obj.update(); # TODO: передать значение
+			energy = obj.update(0); # TODO: передать значение
 			objects[obj.parent].update(energy)
 		elif isinstance(obj, Edge):
 			obj.update()

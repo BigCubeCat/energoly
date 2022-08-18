@@ -3,6 +3,7 @@ import sys
 from Objects.SolarGenerator import SolarGenerator
 from Objects.WindGenerator import WindGenerator
 from Objects.SteamGenerator import SteamGenerator
+from Objects.Battery import Battery
 from Objects.Consumers import Factory, HouseA, HouseB, Hospital
 from Objects.Types.Edge import Edge
 from Objects.Stations import StationA, StationB, MainStation
@@ -160,7 +161,7 @@ def getObjList(topology):
 	newDict = {i['address']:(i['station'], i['line']) for i in topology}
 	
 	itemses = tuple(newDict.items())
-
+	print(itemses)
 	for index_, i in enumerate(itemses):
 		ind = len(newDict) + len(edges) 
 		
@@ -169,12 +170,12 @@ def getObjList(topology):
 		#print(i, parent, station)
 		edges.append( Edge(ind,  parent, 100))
 
-		#print(i[0][0])
+
 		match i[0][0]:
 			case 's':
-				objList.append( SolarGenerator(index_, parent, i[0], 10) )
+				objList.append( SolarGenerator(index_, parent, i[0], 10, None, None) )
 			case 'a':
-				objList.append( WindGenerator(index_, parent, i[0], 10) )
+				objList.append( WindGenerator(index_, parent, i[0], 10, None, None, None) )
 			case 't':
 				objList.append( SteamGenerator(index_, parent, i[0], 10) )
 			case 'b':
@@ -191,7 +192,9 @@ def getObjList(topology):
 				objList.append( StationB(index_, parent, i[0], 100) )
 			case 'M':
 				objList.append( MainStation(index_, parent, i[0], 100) )
-		
+			case 'c':
+				objList.append( Battery(index_, parent, i[0]) ) 
+  
 	for i in objList + edges:
 		print(i)
 	return objList + edges

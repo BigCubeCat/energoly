@@ -43,19 +43,24 @@ class WindGenerator(Generator):
         return tree
 
     def load_model(self):
-        # ссылка на файл: https://drive.google.com/file/d/1HuOOUY5FqKMZyuBxp5_xYzAVz0MLyInG/view?usp=sharing
-        with open('model_good_a1_v-full.json', 'r') as model_json:
-            model_dict = json.load(model_json)
+        try:
+            # ссылка на файл: https://drive.google.com/file/d/1HuOOUY5FqKMZyuBxp5_xYzAVz0MLyInG/view?usp=sharing
+            with open('model_good_a1_v-full.json', 'r') as model_json:
+                model_dict = json.load(model_json)
+                model = RandomForestRegressor(**model_dict['params'])
+                estimators = [
+                    self.deserialize_decision_tree_regressor(decision_tree) for decision_tree in model_dict['estimators_']
+                ]
+                model.estimators_ = np.array(estimators)
+                model.n_features_ = model_dict['n_features_']
+                model.n_outputs_ = model_dict['n_outputs_']
+                  
+                return model
+        except FileNotFoundError:
+            print("\n\n\nссылка на модель для нейронки, скачай!!!: https://drive.google.com/file/d/1HuOOUY5FqKMZyuBxp5_xYzAVz0MLyInG/view?usp=sharing\n\n\n")
+            return
 
-        model = RandomForestRegressor(**model_dict['params'])
-        estimators = [
-            self.deserialize_decision_tree_regressor(decision_tree) for decision_tree in model_dict['estimators_']
-        ]
-        model.estimators_ = np.array(estimators)
-        model.n_features_ = model_dict['n_features_']
-        model.n_outputs_ = model_dict['n_outputs_']
-
-        return model
+        
 
     def update(self, tick):
         data = [

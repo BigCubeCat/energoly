@@ -161,7 +161,7 @@ def getObjList(topology):
 	newDict = {i['address']:(i['station'], i['line']) for i in topology}
 	
 	itemses = tuple(newDict.items())
-	print(itemses)
+
 	for index_, i in enumerate(itemses):
 		ind = len(newDict) + len(edges) 
 		
@@ -195,8 +195,8 @@ def getObjList(topology):
 			case 'c':
 				objList.append( Battery(index_, parent, i[0]) ) 
   
-	for i in objList + edges:
-		print(i)
+	#for i in objList + edges:
+	#	print(i)
 	return objList + edges
 	
 def main():

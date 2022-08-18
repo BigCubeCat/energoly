@@ -44,7 +44,7 @@ class WindGenerator(Generator):
 
     def load_model(self):
         try:
-            # ссылка на файл: https://drive.google.com/file/d/1HuOOUY5FqKMZyuBxp5_xYzAVz0MLyInG/view?usp=sharing
+            # ссылка на файл: https://drive.google.com/file/d/1u14dhbunno4kqDhfdgnsjWl28bDiSt0U/view?usp=sharing
             with open('model_good_a1_v-full.json', 'r') as model_json:
                 model_dict = json.load(model_json)
                 model = RandomForestRegressor(**model_dict['params'])
@@ -57,10 +57,8 @@ class WindGenerator(Generator):
                   
                 return model
         except FileNotFoundError:
-            print("\n\n\nссылка на модель для нейронки, скачай!!!: https://drive.google.com/file/d/1HuOOUY5FqKMZyuBxp5_xYzAVz0MLyInG/view?usp=sharing\n\n\n")
+            print("\n\n\nCсылка на модель для нейронки, скачай!!!: https://drive.google.com/file/d/1u14dhbunno4kqDhfdgnsjWl28bDiSt0U/view?usp=sharing\n\n\n")
             return
-
-        
 
     def update(self, tick):
         data = [

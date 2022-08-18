@@ -1,5 +1,6 @@
 from .Types import Consumer
 
+
 class Factory(Consumer):
     def __init__(self, index, parents, name) -> None:
         super().__init__(index, parents, name)
@@ -18,4 +19,3 @@ class HouseB(Consumer):
 class Hospital(Consumer):
     def __init__(self, index, parents, name) -> None:
         super().__init__(index, parents, name)
-

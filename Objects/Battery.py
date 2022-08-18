@@ -6,6 +6,3 @@ class Battery(Consumer, Generator):
 		super().__init__(index, parent, name)
 	
 		self.energyCount = 0
-		
-	def update(energy):
-		pass

@@ -15,7 +15,7 @@ def deserialize_decision_tree_regressor(model_dict):
     deserialized_decision_tree = DecisionTreeRegressor()
 
     deserialized_decision_tree.max_features_ = model_dict['max_features_']
-    deserialized_decision_tree.n_features_ = model_dict['n_features_']
+    # deserialized_decision_tree.n_features_ = model_dict['n_features_']
     deserialized_decision_tree.n_outputs_ = model_dict['n_outputs_']
 
     tree = deserialize_tree(model_dict['tree_'], model_dict['n_features_'], 1, model_dict['n_outputs_'])
@@ -46,12 +46,16 @@ def load_model(filename="compress_model"):
         prev_model = StringIO(decompress)
 
     model_dict = json.load(prev_model)
-    model = RandomForestRegressor(**model_dict['params'])
+
+    params = model_dict['params']
+    params.pop('min_impurity_split')
+
+    model = RandomForestRegressor(**params)
     estimators = [
         deserialize_decision_tree_regressor(decision_tree) for decision_tree in model_dict['estimators_']
     ]
     model.estimators_ = np.array(estimators)
-    model.n_features_ = model_dict['n_features_']
+    # model.n_features_ = model_dict['n_features_']
     model.n_outputs_ = model_dict['n_outputs_']
 
     return model

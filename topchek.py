@@ -175,9 +175,9 @@ def getObjList(topology):
 
         match i[0][0]:
             case 's':
-                objList.append(SolarGenerator(index_, parent, i[0], 10, None, None))
+                objList.append(SolarGenerator(index_, parent, i[0], 10, [1]*100, (2, 3)))
             case 'a':
-                objList.append(WindGenerator(index_, parent, i[0], 10, None, None, None, model))
+                objList.append(WindGenerator(index_, parent, i[0], 10, [1]*100, (1100, -250), 1, model))
             case 't':
                 objList.append(SteamGenerator(index_, parent, i[0], 10))
             case 'b':

@@ -9,25 +9,16 @@ from Objects.Types.Station import Station
 from topchek import read_topology
 
 
-objects = read_topology("testTopology")
+stations, edges, objects = read_topology("testTopology")
 
-print(objects)
-print(len([o for o in objects if not isinstance(o, Edge)]))
-print()
-for o in objects:
-    print(o)
+score = 0
 
-
-for i in range(100): # Все тики
+for tick in range(200): # Все тики
     for obj in objects:
-        energy = 0
-        if isinstance(obj, Generator):
-            energy = obj.update(i) # TODO: передать значение
-            # objects[obj.parent].update(energy)
-        elif isinstance(obj, Consumer):
-            energy = obj.update(0); # TODO: передать значение
-            # objects[obj.parent].update(energy)
-        elif isinstance(obj, Edge):
-            obj.update()
-            # objects[obj.parent] # TODO: Износ на edge
-            
+        if isinstance(obj, Consumer):
+            score += obj.update(1, edges, stations) # TODO: Расчет энергии! Выдать потребление из прогноза на текущем тике
+        else:
+            obj.update(edges, stations)
+    for station in stations:
+        station.update()
+

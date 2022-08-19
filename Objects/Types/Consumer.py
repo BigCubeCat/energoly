@@ -10,11 +10,12 @@ class Consumer(BaseObject):
     def setBill(self, bill):
         self.bill = bill
 
-    def update(self, energy): 
+    def update(self, energy, edges, stations): 
         """
         energy: Колличество энергии в Мвт потребленное потребителем за такт
         """
         # TODO: Проверить что энергия поступает из parent
         # Если не поступает - то штраф
         self.totatBill += self.bill * energy
-        return self.bill * energy
+        return abs(edges[self.parents].update(-energy, stations)) * self.bill
+

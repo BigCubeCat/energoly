@@ -19,6 +19,6 @@ class Edge(BaseObject):
         energy -= total_looses
         # Добавляем энергии на станцию
         stations[self.parents[0]].add_energy(energy)
-        pass  # TODO: Сделать симуляцию нагрузки
+        return energy
 
 

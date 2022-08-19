@@ -4,12 +4,11 @@ from random import uniform
 
 
 class SolarGenerator(Generator):
-    def __init__(self, index, parents, name, rent_price, weather_sun_all, coordinate) -> None:
+    def __init__(self, index, parents, name, rent_price, coordinate) -> None:
         super().__init__(index, parents, name)
         self.setBill(rent_price)
 
-        self.weather_sun_all = weather_sun_all
-        self.max_weather_sun = max(self.weather_sun_all)
+        self.max_weather_sun = 15
         self.coordinate = coordinate
 
     def func_sin(self, weather_sun):
@@ -34,7 +33,7 @@ class SolarGenerator(Generator):
     def gen_sun(self, weather_sun, x, y):
         return self.spread(weather_sun + self.func_sin(weather_sun) + (self.dependence_on_the_position(x, y)-self.dependence_on_the_position(2, 3)))
 
-    def update(self, tick, edges, stations):
-        result = self.gen_sun(self.weather_sun_all[tick], *self.coordinate)
+    def update(self, weather_sun, edges, stations):
+        result = self.gen_sun(weather_sun, *self.coordinate)
         super().update(result, edges, stations)
         return result

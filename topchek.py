@@ -155,9 +155,9 @@ def generate(s: str, filename="topo"):
 def initObject(index_, parent, name):
     match name[0]:
         case 's':
-            return SolarGenerator(index_, parent, name, 10, [1]*100, (2, 3))
+            return SolarGenerator(index_, parent, name, 10, (2, 3))
         case 'a':
-            return WindGenerator(index_, parent, name, 10, [1]*100, (1100, -250), 1, model)
+            return WindGenerator(index_, parent, name, 10, (1100, -250), 1, model)
         case 't':
             return SteamGenerator(index_, parent, name, 10)
         case 'b':
@@ -173,7 +173,7 @@ def initObject(index_, parent, name):
         case 'm':
             return StationB(index_, parent, name)
         case 'M':
-            return MainStation(index_, parent, name)
+            return MainStation(index_, name)
         case 'c':
             return Battery(index_, parent, name)
 

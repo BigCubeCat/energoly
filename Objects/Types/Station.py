@@ -12,25 +12,25 @@ class Station(BaseObject):
         self.currentDamage = 0
 
         self.alive = True
-        self.x = 0
+        self.w = 0
 
     def add_energy(self, energy): 
         """
         Для расчета нагрузки
         """
-        self.x += energy / 30
+        self.w += (energy / 30) ** 1.9 / 6
+        self.w = min(1, self.w)
+        print(self.w)
 
     def update(self):
-        w = (self.x ** 1.9) / 6
-        error_probability = 1 / (1 + e ** (36 - 40 * w))
+        error_probability = 1 / (1 + e ** (36 - 40 * self.w))
         print(error_probability)
 
 
 if __name__ == "__main__":
+    st = Station(0, [], "a", 100)
     for i in range(1, 30):
-        st = Station(0, [], "a", 100)
-        print(i)
-        for j in range(100):
-            st.add_energy(i)
+        st.add_energy(15)
         st.update()
+        print(i)
         print()

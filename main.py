@@ -13,12 +13,15 @@ stations, edges, objects = read_topology("testTopology")
 
 score = 0
 
-for tick in range(200): # Все тики
+for tick in range(1): # Все тики
     for obj in objects:
-        if isinstance(obj, Consumer):
-            score += obj.update(1, edges, stations) # TODO: Расчет энергии! Выдать потребление из прогноза на текущем тике
-        else:
-            obj.update(edges, stations)
+        try:
+            if isinstance(obj, Consumer):
+                score += obj.update(1, edges, stations) # TODO: Расчет энергии! Выдать потребление из прогноза на текущем тике
+            else:
+                obj.update(tick, edges, stations)
+        except Exception as error:
+            print(error)
     for station in stations:
         station.update()
 

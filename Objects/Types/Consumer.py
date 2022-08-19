@@ -17,5 +17,5 @@ class Consumer(BaseObject):
         # TODO: Проверить что энергия поступает из parent
         # Если не поступает - то штраф
         self.totatBill += self.bill * energy
-        return abs(edges[self.parents].update(-energy, stations)) * self.bill
+        return abs(edges[self.parent].update(-energy, stations)) * self.bill
 

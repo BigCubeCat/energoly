@@ -11,7 +11,7 @@ class WindGenerator(Generator):
         self.coordinate = coordinate
         self.power_wind = power_wind
 
-    def update(self, tick):
+    def update(self, tick, edges, stations):
         data = [
             self.weather_sun_all[tick - 3] ** 5 if tick >= 3 else 0,
             self.weather_sun_all[tick - 2] ** 5 if tick >= 2 else 0,
@@ -23,4 +23,5 @@ class WindGenerator(Generator):
         ]
         data_normal = [[0]*7, data]
         result = self.model[0].predict(data_normal)[1]
+        super().update(result, edges, stations)
         return result

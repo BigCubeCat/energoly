@@ -6,7 +6,7 @@ else:
 
 class Edge(BaseObject):
     def __init__(self, index, parent) -> None:
-        super().__init__(index, [parent], "edge")
+        super().__init__(index, parent, "edge")
         self.criticalDamage = 100  # in percents
         self.currentDamage = 0
 
@@ -18,7 +18,7 @@ class Edge(BaseObject):
         total_looses = abs_energy * looses_percent * 0.25
         energy -= total_looses
         # Добавляем энергии на станцию
-        stations[self.parents[0]].add_energy(energy)
+        stations[self.parent].add_energy(energy)
         return energy
 
 

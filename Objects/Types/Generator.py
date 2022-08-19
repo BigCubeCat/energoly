@@ -10,9 +10,9 @@ class Generator(BaseObject):
     def setBill(self, bill):
         self.bill = bill
 
-    def update(self, edges, stations): 
+    def update(self, energy, edges, stations): 
         # TODO: Проверить что энергия поступает из parent
         # Если не поступает - то штраф
         self.totatBill += self.bill
-        return edges[self.parents[0]].update(energy, stations) # У генератора рента не зависит от результата
+        return edges[self.parent].update(energy, stations) # У генератора рента не зависит от результата
         # TODO: calulate energy

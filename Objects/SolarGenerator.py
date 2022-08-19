@@ -34,6 +34,7 @@ class SolarGenerator(Generator):
     def gen_sun(self, weather_sun, x, y):
         return self.spread(weather_sun + self.func_sin(weather_sun) + (self.dependence_on_the_position(x, y)-self.dependence_on_the_position(2, 3)))
 
-    def update(self, tick):
+    def update(self, tick, edges, stations):
         result = self.gen_sun(self.weather_sun_all[tick], *self.coordinate)
+        super().update(result, edges, stations)
         return result

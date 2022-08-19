@@ -3,6 +3,7 @@ if __name__ == "__main__":
 else:
     from .BaseObject import BaseObject
 from math import e
+from random import random
 
 
 class Station(BaseObject):
@@ -12,19 +13,25 @@ class Station(BaseObject):
         self.currentDamage = 0
 
         self.alive = True
+        self.to_alive = 0
         self.w = 0
 
     def add_energy(self, energy): 
         """
         Для расчета нагрузки
         """
-        self.w += (energy / 30) ** 1.9 / 6
-        self.w = min(1, self.w)
-        print(self.w)
+        self.w += (abs(energy) / 30) ** 1.9 / 6
 
     def update(self):
-        error_probability = 1 / (1 + e ** (36 - 40 * self.w))
-        print(error_probability)
+        if not self.alive and self.to_alive == 0:
+            self.alive = True
+        elif not self.alive:
+            self.to_alive -= 1
+        else:
+            error_probability = 1 / (1 + e ** (36 - 40 * self.w)) if self.w < 1 else 1
+            if random() < error_probability:
+                self.alive = False
+                self.to_alive = 5
 
 
 if __name__ == "__main__":

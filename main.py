@@ -8,7 +8,6 @@ from Objects.Types.Edge import Edge
 from Objects.Types.Station import Station
 from topchek import read_topology
 
-
 stations, edges, objects = read_topology("testTopology")
 
 weather_wind_all = [0]*100

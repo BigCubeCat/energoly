@@ -178,40 +178,55 @@ def initObject(index_, parent, name):
             return Battery(index_, parent, name)
 
 
+def add_from_graph(item, newDict, station_ports, stations, edges, objects, visit):
+    elem = item[0]
+    connection = item[1]
+    name_parent = item[1][0]
+    if elem in visit:
+        return station_ports, stations, edges, objects, visit
+
+    if not (name_parent in visit):
+        detail_parent = newDict[name_parent]
+        station_ports, stations, edges, objects, visit = add_from_graph(
+            (name_parent, detail_parent), newDict, station_ports, stations, edges, objects, visit
+        )
+
+    edge_index = station_ports[connection[0]][connection[1] - 1]
+
+    if elem.startswith('e') or elem.startswith('m'):
+        stations.append(initObject(len(edges), edge_index, elem))
+
+        # на данный момент зарегестрированна подстанция, но не кабели от нее
+        count_new_edges = 3 if elem.startswith('e') else 2
+        station_ports[elem] = []
+        for e in range(count_new_edges):
+            new_edge_index = len(edges)
+            edges.append(Edge(new_edge_index, len(stations) - 1))
+            station_ports[elem].append(new_edge_index)
+    else:
+        objects.append(initObject(len(objects), edge_index, elem))
+
+    visit.append(elem)
+    return station_ports, stations, edges, objects, visit
+
 
 def getObjList(topology):
-    # get main station name
-    str_topology = str(topology)
-    m_index = str_topology.index('M')
-    main_station_name = "M" + str_topology[m_index + 1]
-    stations = [MainStation(0, main_station_name)] # Пока только главная подстанция
-    edges = [Edge(0, 0), Edge(1, 0), Edge(2, 0)] # Провода от главной подстанции
-    objects = []
-
     newDict = {i['address']: (i['station'], i['line']) for i in topology}
-    print(newDict)
-
     itemses = tuple(newDict.items())
     print(f"{itemses=}")
-    print(len(itemses))
+
+    parents_name = {detail[0] for detail in newDict.values()}
+    main_station_name = [parent for parent in parents_name if parent.startswith('M')][0]
+    stations = [MainStation(0, main_station_name)]  # Пока только главная подстанция
+    edges = [Edge(0, 0), Edge(1, 0), Edge(2, 0)]  # Провода от главной подстанции
+    objects = []
     # В каждой массив, каждый элемент которого - id подключенного к нему edge в массиве edges
-    station_ports = {main_station_name: [0, 1, 2]}  
-    for elem, connection in newDict.items():
-        if elem.startswith('e') or elem.startswith('m'):
-            edge_index = station_ports[connection[0]][connection[1] - 1] # получение номера линии в edges
-            station_object = initObject(len(edges), edge_index, elem)
-            stations.append(station_object)
-            # на данный момент зарегестрированна подстанция, но не кабели от нее
-            count_new_edges = 3 if elem.startswith('e') else 2
-            station_ports[elem] = []
-            for e in range(count_new_edges):
-                new_edge_index = len(edges)
-                edges.append(Edge(new_edge_index, len(stations) - 1))
-                station_ports[elem].append(new_edge_index)
-    for elem, connection in newDict.items():
-        if not (elem.startswith('e') or elem.startswith('m')):
-            edge_index = station_ports[connection[0]][connection[1] - 1] # получение номера линии в edges
-            objects.append(initObject(len(objects), edge_index, elem))
+    station_ports = {main_station_name: [0, 1, 2]}
+
+    visit = [main_station_name]
+    for item in itemses:
+        station_ports, stations, edges, objects, visit = add_from_graph(item, newDict, station_ports, stations, edges, objects, visit)
+
     print(station_ports)
     print(*[str(e) for e in edges], sep="\n")
     print()
@@ -226,8 +241,8 @@ def read_topology(filename):
     try:
         with open(filename) as fin:
             d = json.load(fin)
-        verify(d) # Проверка топологии на корректность
-        return getObjList(d) # Наше ВСЕ!
+        verify(d)  # Проверка топологии на корректность
+        return getObjList(d)  # Наше ВСЕ!
 
     except (FileNotFoundError, IsADirectoryError):
         fail("Файл", filename, "не найден")
@@ -237,4 +252,3 @@ def read_topology(filename):
 
 if __name__ == "__main__":
     read_topology(sys.args[-1], None)
-

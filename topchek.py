@@ -2,7 +2,8 @@ import json
 import sys
 
 from createTopoObj import createObjList
-from verifyTopo import verify, fail
+from verifyTopo import verify
+from .utils import fail
 
 
 def read_topology(filename):

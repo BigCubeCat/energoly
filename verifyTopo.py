@@ -1,4 +1,5 @@
 import json
+from .utils import fail, fail_n
 
 
 obj_types = [
@@ -13,16 +14,6 @@ obj_types = [
     ("a", "ВЭС"),
     ("t", "ТЭС"),
 ]
-
-
-def fail(*args):
-    print("Ошибка:", *args)
-    exit(1)
-
-
-def fail_n(i, *args):
-    print("Ошибка в элементе", i, ":", *args)
-    exit(1)
 
 
 def verify(d):

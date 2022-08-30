@@ -30,7 +30,7 @@ if __name__ == "__main__":
     for i in range(1, 30):
         st = Station(0, [], "a", 100)
         print(i)
-        for j in range(100):
+        for j in range(5):
             st.add_energy(i)
         st.update()
         print()

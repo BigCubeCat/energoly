@@ -1,5 +1,5 @@
 import json
-from .utils import fail, fail_n
+from utils import fail, fail_n
 
 
 obj_types = [

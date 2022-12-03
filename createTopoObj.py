@@ -73,7 +73,6 @@ def add_from_graph(item, newDict, station_ports, stations, edges, objects, visit
 def createObjList(topology):
     newDict = {i['address']: (i['station'], i['line']) for i in topology}
     itemses = tuple(newDict.items())
-    print(f"{itemses=}")
 
     parents_name = {detail[0] for detail in newDict.values()}
     main_station_name = [parent for parent in parents_name if parent.startswith('M')][0]
@@ -85,13 +84,8 @@ def createObjList(topology):
 
     visit = [main_station_name]
     for item in itemses:
-        station_ports, stations, edges, objects, visit = add_from_graph(item, newDict, station_ports, stations, edges, objects, visit)
+        station_ports, stations, edges, objects, visit = add_from_graph(
+            item, newDict, station_ports, stations, edges, objects, visit
+        )
 
-    print(station_ports)
-    print(*[str(e) for e in edges], sep="\n")
-    print()
-    print(*[s for s in stations], sep="\n")
-    print()
-    print(*[o for o in objects], sep="\n")
-    print()
-    return stations, edges, objects
+    return station_ports, stations, edges, objects, visit

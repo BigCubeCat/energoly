@@ -10,12 +10,11 @@
 
 , { "address" : "b3" , "station" : "M1" , "line" : 2 }
 
-
-, { "address" : "m2" , "station" : "M1" , "line" : 3 }
-
 , { "address" : "b4" , "station" : "m2" , "line" : 1 }
 , { "address" : "f5" , "station" : "m2" , "line" : 1 }
 
 , { "address" : "s2" , "station" : "m2" , "line" : 2 }
 , { "address" : "s4" , "station" : "m2" , "line" : 2 }
+
+, { "address" : "m2" , "station" : "M1" , "line" : 3 }
 ]

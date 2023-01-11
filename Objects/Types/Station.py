@@ -7,31 +7,41 @@ from random import random
 
 
 class Station(BaseObject):
-    def __init__(self, index, parents, name, criticalDamage) -> None:
+    def __init__(self, index, parents, name, criticalDamage, count_line) -> None:
         super().__init__(index, parents, name)
         self.criticalDamage = criticalDamage
         self.currentDamage = 0
+        self.count_line = count_line
 
-        self.alive = True
-        self.to_alive = 0
-        self.w = 0
+        self.alive = [True for _ in range(self.count_line)]
+        self.to_alive = [0 for _ in range(self.count_line)]
+        self.w = [0 for _ in range(self.count_line)]
 
-    def add_energy(self, energy): 
+        self.total_energy = 0
+
+    def add_energy(self, index, energy, station_ports):
         """
         Для расчета нагрузки
         """
-        self.w += (abs(energy) / 30) ** 1.9 / 6
+        line = station_ports[self.name].index(index)
+        self.w[line] += (abs(energy) / 30) ** 1.9 / 6
+        self.total_energy += energy
 
-    def update(self):
-        if not self.alive and self.to_alive == 0:
-            self.alive = True
-        elif not self.alive:
-            self.to_alive -= 1
-        else:
-            error_probability = 1 / (1 + e ** (36 - 40 * self.w)) if self.w < 1 else 1
-            if random() < error_probability:
-                self.alive = False
-                self.to_alive = 5
+    def update(self, edges):
+        for line in range(self.count_line):
+            if not self.alive[line] and self.to_alive[line] == 0:
+                self.alive[line] = True
+            elif not self.alive[line]:
+                self.to_alive[line] -= 1
+            else:
+                error_probability = 1 / (1 + e ** (36 - 40 * self.w[line])) if self.w[line] < 1 else 1
+                if random() < error_probability:
+                    self.alive[line] = False
+                    self.to_alive[line] = 5
+                    self.w[line] = 0
+
+        edges[self.parent].add_energy(self.total_energy)
+        self.total_energy = 0
 
 
 if __name__ == "__main__":

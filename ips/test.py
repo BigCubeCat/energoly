@@ -1916,7 +1916,10 @@ stub_input = {
                      False, False, False, False, True, True, True, True, True, True, True, True, True,
                      True, True, True, True, True, True, False, False, False, False, False, False,
                      False, False, False, False, False, False, False, False, False, False, False, False,
-                     False, False], "exchangeTicketsNow": [], "tick": 100, "forecasts": {"sfClass3B": {
+                     False, False],
+    "exchangeTicketsNow": [],
+    "tick": 100,
+    "forecasts": {"sfClass3B": {
         "forecast": [
             [1.1415470290220844, 0.8981036997397219, 0.7825549008913497, 0.9777143362577756, 0.6915043699756083,
              0.8013089182351367, 0.9203133753426247, 0.8703411589216412, 1.0516102531225553, 0.8998709716753653,
@@ -4238,7 +4241,8 @@ stub_input = {
                                                    68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
                                                    81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93,
                                                    94, 95, 96, 97, 98]], [[0, 0]], []]]],
-    "exchangeTicketsFuture": [], "topo": [[{"place": 1, "player": 1},
+    "exchangeTicketsFuture": [],
+    "topo": [[{"place": 1, "player": 1},
                                            [[1, []], [2, [{"line": 1, "id": ["main", 1]}]],
                                             [3, [{"line": 2, "id": ["main", 1]}]],
                                             [4, [{"line": 3, "id": ["main", 1]}]], [5, [
@@ -4247,7 +4251,8 @@ stub_input = {
                                                {"line": 2, "id": ["main", 1]},
                                                {"line": 2, "id": ["miniB", 1]}]]]]],
     "exchangeReceipts": [{"amount": -16.721238338180783, "owner": {"place": 1, "player": 1},
-                          "source": {"esType": "exchange"}, "price": 1}], "weatherWind": {
+                          "source": {"esType": "exchange"}, "price": 1}],
+    "weatherWind": {
         "done": [2.4663175124868384, 2.475413885309406, 3.419482057514722, 2.477518353778251, 4.338144000632425,
                  4.792481431064305, 7.365943336945399, 6.772747882872014, 7.468416172316285, 7.282811459855802,
                  6.477625201976988, 6.83685513172219, 6.19012462089312, 7.454124510014395, 6.3281920754599,
@@ -4268,7 +4273,8 @@ stub_input = {
                  2.465526376693232, 1.6297959434239977, 1.671152019414436, 0.9072782556945125, 0.49706791632672154,
                  0.8815578462406862, 0.6237939609707986, 1.2880483867916575, 1.2957523645212126, 1.0919389305746217,
                  -0.1502535577046195, -0.38539025302164454, -0.2460425582885033, -0.03853067335608007,
-                 -0.2611678670598525], "incoming": [], "current": 0}, "orders": [
+                 -0.2611678670598525], "incoming": [], "current": 0},
+    "orders": [
         {"owner": {"place": 1, "player": 1}, "order": {"line": {"line": 2, "id": ["main", 1]}, "orderT": "lineOn"}},
         {"owner": {"place": 1, "player": 1}, "order": {"line": {"line": 1, "id": ["miniB", 1]}, "orderT": "lineOn"}},
         {"owner": {"place": 1, "player": 1}, "order": {"line": {"line": 2, "id": ["miniB", 1]}, "orderT": "lineOn"}},
@@ -4400,7 +4406,8 @@ stub_input = {
                                                                      67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
                                                                      80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92,
                                                                      93, 94, 95, 96, 97, 98]], [[0, 0]], []],
-                                                       "orderT": "userData"}}], "weatherSun": {
+                                                       "orderT": "userData"}}],
+    "weatherSun": {
         "done": [-0.41681411208332464, 0.02627884674634018, -0.08541938844297892, -0.08590858806202428,
                  -0.07464761005844867, 1.2987272946221118, 1.9782782850983427, 4.152720805932368, 4.297533690531698,
                  5.446878237699955, 6.340602273103584, 7.0630028581922915, 7.857468908207117, 8.38776447579431,
@@ -4938,13 +4945,15 @@ stub_input = {
             {"con": {"loss": 0, "income": 0}, "overload": {"loss": 0, "income": 0},
              "exchange": {"loss": 0, "income": 0}, "auction": {"loss": 0, "income": 0},
              "gen": {"loss": 0, "income": 0}, "total": {"loss": 0, "income": 0},
-             "grid": {"loss": 0, "income": 0}}]}]], "totalPowers": [[{"place": 1, "player": 1}, {
+             "grid": {"loss": 0, "income": 0}}]}]],
+    "totalPowers": [[{"place": 1, "player": 1}, {
         "now": {"consumedClass1": 0, "cellsGenerated": 0, "totalGenerated": 20.90154792699549, "cellsConsumed": 0,
                 "generatedTPS": 0, "hypotheticallyGenerated": 20.90154792699549, "totalLost": 4.180309588814707,
                 "totalFromExternal": -16.721238338180783, "diesels": 0, "generatedSolar": 20.888671875,
                 "consumedClass2": 0, "exchangeAdvanceBought": 0, "exchangeLastMomentBought": 0, "totalConsumed": 0,
                 "consumedClass3": 0, "exchangeLastMomentSold": 16.721238338180783, "exchangeAdvanceSold": 0,
-                "generatedWind": 0.012876051995489336, "hypotheticallyConsumed": 0}, "then": [
+                "generatedWind": 0.012876051995489336, "hypotheticallyConsumed": 0},
+        "then": [
             {"consumedClass1": 0, "cellsGenerated": 0, "totalGenerated": 0, "cellsConsumed": 0, "generatedTPS": 0,
              "hypotheticallyGenerated": 20.922679636213516, "totalLost": 0.1485612494251123,
              "totalFromExternal": 4.7416891774044805, "diesels": 0, "generatedSolar": 0,

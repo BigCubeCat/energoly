@@ -3,7 +3,7 @@ import sys
 
 from createTopoObj import createObjList
 from verifyTopo import verify
-from .utils import fail
+from utils import fail
 
 
 def read_topology(filename):
